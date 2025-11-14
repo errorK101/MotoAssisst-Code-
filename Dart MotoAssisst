@@ -1,0 +1,748 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MotoAssistApp());
+}
+
+class MotoAssistApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'MotoAssist',
+      theme: ThemeData(primarySwatch: Colors.deepOrange),
+      home: LoginPage(),
+    );
+  }
+}
+
+// ===========================================================
+// LOGIN PAGE
+// ===========================================================
+
+class LoginPage extends StatelessWidget {
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController pass = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Login')),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: phone,
+              decoration: const InputDecoration(
+                labelText: 'Contact Number',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: pass,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 25),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                child: const Text("Login"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => HomePage()),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextButton(
+              child: const Text("Create an Account"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => RoleChoicePage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// ROLE CHOICE PAGE
+// ===========================================================
+
+class RoleChoicePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Choose Role")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            const Text(
+              "Register as:",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.person),
+                label: const Text("Rider"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => RiderRegisterPage()),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.build),
+                label: const Text("Mechanic"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => MechanicRegisterPage()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// RIDER REGISTRATION PAGE
+// ===========================================================
+
+class RiderRegisterPage extends StatelessWidget {
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController pass = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Rider Registration")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: name,
+              decoration: const InputDecoration(
+                labelText: "Full Name",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: phone,
+              decoration: const InputDecoration(
+                labelText: "Contact Number",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: pass,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: "Password",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 25),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                child: const Text("Create Rider Account"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => HomePage()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// MECHANIC REGISTRATION PAGE
+// ===========================================================
+
+class MechanicRegisterPage extends StatelessWidget {
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController shop = TextEditingController();
+  final TextEditingController pass = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Mechanic Registration")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: name,
+              decoration: const InputDecoration(
+                labelText: "Full Name",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: phone,
+              decoration: const InputDecoration(
+                labelText: "Contact Number",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: shop,
+              decoration: const InputDecoration(
+                labelText: "Shop Name (Optional)",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: pass,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: "Password",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 25),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                child: const Text("Create Mechanic Account"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => HomePage()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// HOME PAGE
+// ===========================================================
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Home")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            // BIG BOOK BUTTON
+            SizedBox(
+              width: double.infinity,
+              height: 80,
+              child: ElevatedButton(
+                child: const Text(
+                  "BOOK",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => CreateBookingPage()),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("History"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => HistoryPage()),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("Settings"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => SettingsPage()),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("Activity"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ActivityPage()),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("Profile"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ProfilePage()),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// CREATE BOOKING PAGE
+// ===========================================================
+
+class CreateBookingPage extends StatelessWidget {
+  final TextEditingController issue = TextEditingController();
+  final TextEditingController location = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Create Booking")),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Describe Issue"),
+            const SizedBox(height: 8),
+            TextField(
+              controller: issue,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Example: Flat tire, engine not starting...",
+              ),
+            ),
+
+            const SizedBox(height: 20),
+            const Text("Location"),
+            const SizedBox(height: 8),
+            TextField(
+              controller: location,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Enter location or landmark",
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Text(
+                  "MAP WILL BE HERE\n(API COMING SOON)",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                child: const Text("Submit Booking"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TrackingPage(
+                        issue: issue.text,
+                        location: location.text,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// TRACKING PAGE (WITH POPUPS)
+// ===========================================================
+
+class TrackingPage extends StatefulWidget {
+  final String issue;
+  final String location;
+
+  const TrackingPage({required this.issue, required this.location});
+
+  @override
+  State<TrackingPage> createState() => _TrackingPageState();
+}
+
+class _TrackingPageState extends State<TrackingPage> {
+  String statusText = "Searching for mechanic...";
+  bool mechanicAccepted = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // SEARCHING POPUP
+    Future.delayed(Duration(milliseconds: 300), () {
+      _showSearchingPopup();
+    });
+
+    // AFTER 3 SECONDS, MECHANIC ACCEPTS
+    Future.delayed(Duration(seconds: 3), () {
+      _showAcceptedPopup();
+    });
+  }
+
+  void _showSearchingPopup() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        title: const Text("Please wait"),
+        content: const SizedBox(
+          height: 80,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showAcceptedPopup() {
+    Navigator.pop(context);
+
+    setState(() {
+      mechanicAccepted = true;
+      statusText = "Mechanic has accepted!";
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        title: const Text("Booking Accepted"),
+        content: const Text("A mechanic is now on the way."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Tracking")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Tracking Booking",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 15),
+
+            Text("Issue: ${widget.issue}", style: const TextStyle(fontSize: 16)),
+            Text("Location: ${widget.location}", style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 20),
+
+            Text(
+              "Status: $statusText",
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 20),
+
+            Container(
+              height: 250,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: mechanicAccepted
+                    ? const Text(
+                        "Mechanic Location Tracking\n(API Coming Soon)",
+                        textAlign: TextAlign.center,
+                      )
+                    : const Text(
+                        "Locating mechanic...\n(API Coming Soon)",
+                        textAlign: TextAlign.center,
+                      ),
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text("Cancel Booking"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// HISTORY PAGE
+// ===========================================================
+
+class HistoryPage extends StatelessWidget {
+  final List<String> previousJobs = [
+    "Flat tire repair – ₱300",
+    "Engine check-up – ₱500",
+    "Oil change – ₱350",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("History")),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(20),
+        itemCount: previousJobs.length,
+        itemBuilder: (_, i) {
+          return Card(
+            child: ListTile(
+              title: Text(previousJobs[i]),
+              subtitle: const Text("Completed"),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// ACTIVITY PAGE (CURRENT JOB)
+// ===========================================================
+
+class ActivityPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Current Activity")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            const Text(
+              "Your current booking:",
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 20),
+
+            Card(
+              child: ListTile(
+                title: const Text("Mechanic on the way"),
+                subtitle: const Text("Tracking your booking"),
+                trailing: ElevatedButton(
+                  child: const Text("View"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => TrackingPage(
+                          issue: "Flat Tire",
+                          location: "Sample Location",
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// PROFILE PAGE
+// ===========================================================
+
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Profile")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text("Name: Juan Dela Cruz", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 10),
+            Text("Contact: 09123456789", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 10),
+            Text("Role: Rider", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 20),
+            Text("More profile settings soon..."),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================
+// SETTINGS PAGE
+// ===========================================================
+
+class SettingsPage extends StatefulWidget {
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool darkMode = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Settings")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            SwitchListTile(
+              value: darkMode,
+              title: const Text("Dark Mode (sample)"),
+              onChanged: (val) {
+                setState(() => darkMode = val);
+              },
+            ),
+            const Divider(),
+
+            ListTile(
+              title: const Text("Language"),
+              subtitle: const Text("English (default)"),
+              onTap: () {},
+            ),
+
+            const Divider(),
+
+            ListTile(
+              title: const Text("Notifications"),
+              subtitle: const Text("Enabled"),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
