@@ -4,12 +4,69 @@ void main() {
   runApp(MotoAssistApp());
 }
 
+// Define common colors and styles
+const Color _kTealColor = Color(0xFF4DD0D0);
+
+InputDecoration _appInputDecoration({
+  required String hintText,
+  Widget? suffixIcon,
+  int? maxLines,
+}) {
+  return InputDecoration(
+    hintText: hintText,
+    hintStyle: const TextStyle(color: _kTealColor), // Hint text color from image
+    filled: false, // Not filled, as per image
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(5.0), // Smaller border radius from image
+      borderSide: const BorderSide(color: _kTealColor, width: 2.0), // Teal border from image
+    ),
+    focusedBorder: OutlineInputBorder( // Ensure focused state also has teal border
+      borderRadius: BorderRadius.circular(5.0),
+      borderSide: const BorderSide(color: _kTealColor, width: 2.0),
+    ),
+    enabledBorder: OutlineInputBorder( // Ensure enabled state also has teal border
+      borderRadius: BorderRadius.circular(5.0),
+      borderSide: const BorderSide(color: _kTealColor, width: 2.0),
+    ),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12), // Adjusted padding
+    suffixIcon: suffixIcon,
+  );
+}
+
+ButtonStyle _appButtonStyle({
+  Color? backgroundColor,
+  Color? foregroundColor,
+  double? minimumWidth,
+  double? height,
+  TextStyle? textStyle,
+}) {
+  return ElevatedButton.styleFrom(
+    backgroundColor: backgroundColor ?? _kTealColor,
+    foregroundColor: foregroundColor ?? Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30),
+    ),
+    minimumSize: minimumWidth != null && height != null
+        ? Size(minimumWidth, height)
+        : null,
+    textStyle: textStyle ??
+        const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  );
+}
+
 class MotoAssistApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MotoAssist',
-      theme: ThemeData(primarySwatch: Colors.deepOrange),
+      theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white, // White app bar background
+          foregroundColor: Colors.black, // Dark icons/text on app bar
+          elevation: 0, // No shadow for app bar
+        ),
+      ),
       home: LoginPage(),
     );
   }
@@ -20,61 +77,123 @@ class MotoAssistApp extends StatelessWidget {
 // ===========================================================
 
 class LoginPage extends StatelessWidget {
-  final TextEditingController phone = TextEditingController();
+  final TextEditingController email = TextEditingController();
   final TextEditingController pass = TextEditingController();
+
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: phone,
-              decoration: const InputDecoration(
-                labelText: 'Contact Number',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 15),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40),
+            child: Column(
+              children: [
+                // LOGO PLACEHOLDER
+                Container(
+                  width: 180,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'MOTOASSIST\nRescue on the go',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
 
-            TextField(
-              controller: pass,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 25),
+                const SizedBox(height: 30),
 
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                child: const Text("Login"),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => HomePage()),
-                  );
-                },
-              ),
-            ),
+                const Text(
+                  'LOGIN TO YOUR ACCOUNT',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
 
-            const SizedBox(height: 20),
+                const SizedBox(height: 25),
 
-            TextButton(
-              child: const Text("Create an Account"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => RoleChoicePage()),
-                );
-              },
+                // EMAIL FIELD
+                TextField(
+                  controller: email,
+                  decoration: _appInputDecoration(
+                    hintText: 'EMAIL',
+                  ),
+                ),
+
+                const SizedBox(height: 15),
+
+                // PASSWORD FIELD
+                TextField(
+                  controller: pass,
+                  obscureText: true,
+                  decoration: _appInputDecoration(
+                    hintText: 'PASSWORD',
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                // SIGN IN BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: _appButtonStyle(),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<HomePage>(
+                            builder: (_) => HomePage()),
+                      );
+                    },
+                    child: const Text(
+                      "SIGN IN",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 15),
+
+                // YOU DON'T HAVE? SIGN UP
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("YOU DON'T HAVE?  "),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<RoleChoicePage>(
+                              builder: (_) => RoleChoicePage()),
+                        );
+                      },
+                      child: const Text(
+                        "SIGN UP",
+                        style: TextStyle(
+                          color: _kTealColor,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 25),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -86,6 +205,8 @@ class LoginPage extends StatelessWidget {
 // ===========================================================
 
 class RoleChoicePage extends StatelessWidget {
+  RoleChoicePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,29 +223,34 @@ class RoleChoicePage extends StatelessWidget {
 
             SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton.icon(
+                style: _appButtonStyle(),
                 icon: const Icon(Icons.person),
                 label: const Text("Rider"),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => RiderRegisterPage()),
+                    MaterialPageRoute<RiderRegisterPage>(
+                        builder: (_) => RiderRegisterPage()),
                   );
                 },
               ),
             ),
-
             const SizedBox(height: 20),
 
             SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton.icon(
+                style: _appButtonStyle(),
                 icon: const Icon(Icons.build),
                 label: const Text("Mechanic"),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => MechanicRegisterPage()),
+                    MaterialPageRoute<MechanicRegisterPage>(
+                        builder: (_) => MechanicRegisterPage()),
                   );
                 },
               ),
@@ -141,56 +267,111 @@ class RoleChoicePage extends StatelessWidget {
 // ===========================================================
 
 class RiderRegisterPage extends StatelessWidget {
-  final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
-  final TextEditingController pass = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController middleName = TextEditingController();
+  final TextEditingController address = TextEditingController();
+  final TextEditingController contactNo = TextEditingController();
+  final TextEditingController emailAddress = TextEditingController();
+  final TextEditingController licenseNo = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+
+  RiderRegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Rider Registration")),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text("CREATE ACCOUNT"),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
-              controller: name,
-              decoration: const InputDecoration(
-                labelText: "Full Name",
-                border: OutlineInputBorder(),
+            const Text(
+              "RIDER",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: Image.network(
+                'https://www.gstatic.com/flutter-onestack-prototype/genui/example_1.jpg', // Placeholder image for rider
+                width: 150,
+                height: 150,
+                fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 15),
-
+            const SizedBox(height: 30),
             TextField(
-              controller: phone,
-              decoration: const InputDecoration(
-                labelText: "Contact Number",
-                border: OutlineInputBorder(),
-              ),
+              controller: lastName,
+              decoration: _appInputDecoration(hintText: "LAST NAME"),
             ),
             const SizedBox(height: 15),
-
             TextField(
-              controller: pass,
+              controller: firstName,
+              decoration: _appInputDecoration(hintText: "FIRST NAME"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: middleName,
+              decoration: _appInputDecoration(hintText: "MIDDLE NAME"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: address,
+              decoration: _appInputDecoration(hintText: "ADDRESS"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: contactNo,
+              keyboardType: TextInputType.phone,
+              decoration: _appInputDecoration(hintText: "CONTACT NO."),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: emailAddress,
+              keyboardType: TextInputType.emailAddress,
+              decoration: _appInputDecoration(hintText: "EMAIL ADDRESS"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: licenseNo,
+              decoration: _appInputDecoration(hintText: "LICENSE NO."),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: password,
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
-              ),
+              decoration: _appInputDecoration(hintText: "PASSWORD"),
             ),
-            const SizedBox(height: 25),
-
+            const SizedBox(height: 15),
+            TextField(
+              controller: confirmPassword,
+              obscureText: true,
+              decoration: _appInputDecoration(hintText: "CONFIRM PASSWORD"),
+            ),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
-                child: const Text("Create Rider Account"),
+                style: _appButtonStyle(),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => HomePage()),
+                    MaterialPageRoute<HomePage>(
+                        builder: (_) => HomePage()),
                   );
                 },
+                child: const Text("SIGN UP"),
               ),
             ),
           ],
@@ -205,66 +386,111 @@ class RiderRegisterPage extends StatelessWidget {
 // ===========================================================
 
 class MechanicRegisterPage extends StatelessWidget {
-  final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
-  final TextEditingController shop = TextEditingController();
-  final TextEditingController pass = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController middleName = TextEditingController();
+  final TextEditingController address = TextEditingController();
+  final TextEditingController contactNo = TextEditingController();
+  final TextEditingController emailAddress = TextEditingController();
+  final TextEditingController nc2 = TextEditingController(); // Corresponds to "NC 2"
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+
+  MechanicRegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Mechanic Registration")),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text("CREATE ACCOUNT"),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
-              controller: name,
-              decoration: const InputDecoration(
-                labelText: "Full Name",
-                border: OutlineInputBorder(),
+            const Text(
+              "MECHANIC",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: Image.network(
+                'https://www.gstatic.com/flutter-onestack-prototype/genui/example_1.jpg', // Placeholder image for mechanic
+                width: 150,
+                height: 150,
+                fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 15),
-
+            const SizedBox(height: 30),
             TextField(
-              controller: phone,
-              decoration: const InputDecoration(
-                labelText: "Contact Number",
-                border: OutlineInputBorder(),
-              ),
+              controller: lastName,
+              decoration: _appInputDecoration(hintText: "LAST NAME"),
             ),
             const SizedBox(height: 15),
-
             TextField(
-              controller: shop,
-              decoration: const InputDecoration(
-                labelText: "Shop Name (Optional)",
-                border: OutlineInputBorder(),
-              ),
+              controller: firstName,
+              decoration: _appInputDecoration(hintText: "FIRST NAME"),
             ),
             const SizedBox(height: 15),
-
             TextField(
-              controller: pass,
+              controller: middleName,
+              decoration: _appInputDecoration(hintText: "MIDDLE NAME"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: address,
+              decoration: _appInputDecoration(hintText: "ADDRESS"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: contactNo,
+              keyboardType: TextInputType.phone,
+              decoration: _appInputDecoration(hintText: "CONTACT NO."),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: emailAddress,
+              keyboardType: TextInputType.emailAddress,
+              decoration: _appInputDecoration(hintText: "EMAIL ADDRESS"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: nc2,
+              decoration: _appInputDecoration(hintText: "NC 2"),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: password,
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
-              ),
+              decoration: _appInputDecoration(hintText: "PASSWORD"),
             ),
-            const SizedBox(height: 25),
-
+            const SizedBox(height: 15),
+            TextField(
+              controller: confirmPassword,
+              obscureText: true,
+              decoration: _appInputDecoration(hintText: "CONFIRM PASSWORD"),
+            ),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
-                child: const Text("Create Mechanic Account"),
+                style: _appButtonStyle(),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => HomePage()),
+                    MaterialPageRoute<HomePage>(
+                        builder: (_) => HomePage()),
                   );
                 },
+                child: const Text("SIGN UP"),
               ),
             ),
           ],
@@ -279,6 +505,8 @@ class MechanicRegisterPage extends StatelessWidget {
 // ===========================================================
 
 class HomePage extends StatelessWidget {
+  HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -292,14 +520,15 @@ class HomePage extends StatelessWidget {
               width: double.infinity,
               height: 80,
               child: ElevatedButton(
-                child: const Text(
-                  "BOOK",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
+                style: _appButtonStyle(
+                    textStyle: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
+                child: const Text("BOOK"),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => CreateBookingPage()),
+                    MaterialPageRoute<CreateBookingPage>(
+                        builder: (_) => CreateBookingPage()),
                   );
                 },
               ),
@@ -310,27 +539,36 @@ class HomePage extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    child: const Text("History"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => HistoryPage()),
-                      );
-                    },
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: _appButtonStyle(),
+                      child: const Text("History"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<HistoryPage>(
+                              builder: (_) => HistoryPage()),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
-
                 Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Settings"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => SettingsPage()),
-                      );
-                    },
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: _appButtonStyle(),
+                      child: const Text("Settings"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<SettingsPage>(
+                              builder: (_) => SettingsPage()),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -341,27 +579,36 @@ class HomePage extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Activity"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ActivityPage()),
-                      );
-                    },
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: _appButtonStyle(),
+                      child: const Text("Activity"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<ActivityPage>(
+                              builder: (_) => ActivityPage()),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
-
                 Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Profile"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ProfilePage()),
-                      );
-                    },
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: _appButtonStyle(),
+                      child: const Text("Profile"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<ProfilePage>(
+                              builder: (_) => ProfilePage()),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -381,6 +628,8 @@ class CreateBookingPage extends StatelessWidget {
   final TextEditingController issue = TextEditingController();
   final TextEditingController location = TextEditingController();
 
+  CreateBookingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -395,25 +644,20 @@ class CreateBookingPage extends StatelessWidget {
             TextField(
               controller: issue,
               maxLines: 3,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: _appInputDecoration(
                 hintText: "Example: Flat tire, engine not starting...",
               ),
             ),
-
             const SizedBox(height: 20),
             const Text("Location"),
             const SizedBox(height: 8),
             TextField(
               controller: location,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: _appInputDecoration(
                 hintText: "Enter location or landmark",
               ),
             ),
-
             const SizedBox(height: 20),
-
             Container(
               height: 200,
               width: double.infinity,
@@ -429,17 +673,17 @@ class CreateBookingPage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 30),
-
             SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
+                style: _appButtonStyle(),
                 child: const Text("Submit Booking"),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    MaterialPageRoute<TrackingPage>(
                       builder: (_) => TrackingPage(
                         issue: issue.text,
                         location: location.text,
@@ -464,7 +708,7 @@ class TrackingPage extends StatefulWidget {
   final String issue;
   final String location;
 
-  const TrackingPage({required this.issue, required this.location});
+  const TrackingPage({super.key, required this.issue, required this.location});
 
   @override
   State<TrackingPage> createState() => _TrackingPageState();
@@ -479,23 +723,25 @@ class _TrackingPageState extends State<TrackingPage> {
     super.initState();
 
     // SEARCHING POPUP
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future<void>.delayed(const Duration(milliseconds: 300), () {
       _showSearchingPopup();
     });
 
     // AFTER 3 SECONDS, MECHANIC ACCEPTS
-    Future.delayed(Duration(seconds: 3), () {
-      _showAcceptedPopup();
+    Future<void>.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        _showAcceptedPopup();
+      }
     });
   }
 
   void _showSearchingPopup() {
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: const Text("Please wait"),
-        content: const SizedBox(
+      builder: (_) => const AlertDialog(
+        title: Text("Please wait"),
+        content: SizedBox(
           height: 80,
           child: Center(
             child: CircularProgressIndicator(),
@@ -506,14 +752,14 @@ class _TrackingPageState extends State<TrackingPage> {
   }
 
   void _showAcceptedPopup() {
-    Navigator.pop(context);
+    Navigator.pop(context); // Dismiss the searching dialog
 
     setState(() {
       mechanicAccepted = true;
       statusText = "Mechanic has accepted!";
     });
 
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
@@ -543,43 +789,41 @@ class _TrackingPageState extends State<TrackingPage> {
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 15),
-
             Text("Issue: ${widget.issue}", style: const TextStyle(fontSize: 16)),
-            Text("Location: ${widget.location}", style: const TextStyle(fontSize: 16)),
+            Text("Location: ${widget.location}",
+                style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
-
             Text(
               "Status: $statusText",
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 20),
-
-            Container(
-              height: 250,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: mechanicAccepted
-                    ? const Text(
-                        "Mechanic Location Tracking\n(API Coming Soon)",
-                        textAlign: TextAlign.center,
-                      )
-                    : const Text(
-                        "Locating mechanic...\n(API Coming Soon)",
-                        textAlign: TextAlign.center,
-                      ),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: mechanicAccepted
+                      ? const Text(
+                          "Mechanic Location Tracking\n(API Coming Soon)",
+                          textAlign: TextAlign.center,
+                        )
+                      : const Text(
+                          "Locating mechanic...\n(API Coming Soon)",
+                          textAlign: TextAlign.center,
+                        ),
+                ),
               ),
             ),
-
             const SizedBox(height: 40),
-
             SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                style: _appButtonStyle(backgroundColor: Colors.red),
                 child: const Text("Cancel Booking"),
                 onPressed: () {
                   Navigator.pop(context);
@@ -598,11 +842,13 @@ class _TrackingPageState extends State<TrackingPage> {
 // ===========================================================
 
 class HistoryPage extends StatelessWidget {
-  final List<String> previousJobs = [
+  final List<String> previousJobs = <String>[
     "Flat tire repair – ₱300",
     "Engine check-up – ₱500",
     "Oil change – ₱350",
   ];
+
+  HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -611,8 +857,9 @@ class HistoryPage extends StatelessWidget {
       body: ListView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: previousJobs.length,
-        itemBuilder: (_, i) {
+        itemBuilder: (_, int i) {
           return Card(
+            margin: const EdgeInsets.only(bottom: 10),
             child: ListTile(
               title: Text(previousJobs[i]),
               subtitle: const Text("Completed"),
@@ -629,6 +876,8 @@ class HistoryPage extends StatelessWidget {
 // ===========================================================
 
 class ActivityPage extends StatelessWidget {
+  ActivityPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -642,24 +891,29 @@ class ActivityPage extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
-
             Card(
               child: ListTile(
                 title: const Text("Mechanic on the way"),
                 subtitle: const Text("Tracking your booking"),
-                trailing: ElevatedButton(
-                  child: const Text("View"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => TrackingPage(
-                          issue: "Flat Tire",
-                          location: "Sample Location",
+                trailing: SizedBox(
+                  width: 80, // Constrain width for the button
+                  height: 40, // Constrain height for the button
+                  child: ElevatedButton(
+                    style: _appButtonStyle(
+                        minimumWidth: 80, height: 40), // Pass minimumSize
+                    child: const Text("View"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<TrackingPage>(
+                          builder: (_) => const TrackingPage(
+                            issue: "Flat Tire",
+                            location: "Sample Location",
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             )
@@ -675,6 +929,8 @@ class ActivityPage extends StatelessWidget {
 // ===========================================================
 
 class ProfilePage extends StatelessWidget {
+  ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -703,6 +959,8 @@ class ProfilePage extends StatelessWidget {
 // ===========================================================
 
 class SettingsPage extends StatefulWidget {
+  SettingsPage({super.key});
+
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
@@ -721,20 +979,17 @@ class _SettingsPageState extends State<SettingsPage> {
             SwitchListTile(
               value: darkMode,
               title: const Text("Dark Mode (sample)"),
-              onChanged: (val) {
+              onChanged: (bool val) {
                 setState(() => darkMode = val);
               },
             ),
             const Divider(),
-
             ListTile(
               title: const Text("Language"),
               subtitle: const Text("English (default)"),
               onTap: () {},
             ),
-
             const Divider(),
-
             ListTile(
               title: const Text("Notifications"),
               subtitle: const Text("Enabled"),
